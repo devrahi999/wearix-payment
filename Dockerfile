@@ -1,16 +1,10 @@
 FROM php:8.3-apache
 
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    libicu-dev \
-    libonig-dev \
-    libmagickwand-dev \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
+    && install-php-extensions \
         mysqli \
         pdo_mysql \
         mbstring \
@@ -18,8 +12,7 @@ RUN apt-get update && apt-get install -y \
         zip \
         intl \
         bcmath \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
+        imagick \
     && a2enmod rewrite headers expires \
     && rm -rf /var/lib/apt/lists/*
 
