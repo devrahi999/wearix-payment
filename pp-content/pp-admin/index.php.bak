@@ -29,8 +29,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>PipraPay</title>
     <link rel="shortcut icon" href="<?= $piprapay_favicon ?? '' ?>">
-    <link rel="stylesheet" href="/assets/css/tabler.min.css?v=1.7" />
-    <link rel="stylesheet" href="/assets/css/choices.min.css">
+    <link rel="stylesheet" href="<?php echo $site_url ?>assets/css/tabler.min.css?v=1.7" />
+    <link rel="stylesheet" href="<?php echo $site_url ?>assets/css/choices.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-flags.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-payments.min.css" />
@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-vendors.min.css" />
 
     <style>
-      @import url("/assets/css/inter.css");
+      @import url("<?php echo $site_url ?>assets/css/inter.css");
     </style>
     <style>
         :root{
@@ -522,11 +522,11 @@
         </div>
     </div>
 
-    <script src="/assets/js/tabler.min.js"></script>
-    <script src="/assets/js/jquery-3.6.4.min.js"></script>
-    <script src="/assets/js/custom-toast.js?v=1.2"></script>
+    <script src="<?php echo $site_url ?>assets/js/tabler.min.js"></script>
+    <script src="<?php echo $site_url ?>assets/js/jquery-3.6.4.min.js"></script>
+    <script src="<?php echo $site_url ?>assets/js/custom-toast.js?v=1.2"></script>
     <script src="<?php echo $site_url ?>assets/js/apexcharts.min.js"></script>
-    <script src="/assets/js/choices.min.js"></script>
+    <script src="<?php echo $site_url ?>assets/js/choices.min.js"></script>
     <script src="<?php echo $site_url ?>assets/js/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hugerte@1/hugerte.min.js"></script>
     
