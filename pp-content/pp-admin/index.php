@@ -977,34 +977,65 @@
                     params: JSON.stringify(queryParams)
                 })
             })
-            .then(res => res.text())
+            .then(async res => {
+                const html = await res.text();
+
+                if (!res.ok) {
+                    throw new Error(
+                        'HTTP ' + res.status + ': ' + html.substring(0, 500)
+                    );
+                }
+
+                return html;
+            })
             .then(html => {
                 $('.root-print').html(html);
 
-                initHugeRTE();
+                try {
+                    if (typeof initHugeRTE === 'function') {
+                        initHugeRTE();
+                    }
 
-                initInvoiceCustomer();
+                    if (typeof initInvoiceCustomer === 'function') {
+                        initInvoiceCustomer();
+                    }
 
-                initToolTips();
+                    if (typeof initToolTips === 'function') {
+                        initToolTips();
+                    }
 
-                initChoices();             
-                initChoices('.js-select');
+                    if (typeof initChoices === 'function') {
+                        initChoices();
+                        initChoices('.js-select');
+                    }
 
-                initTags();
+                    if (typeof initTags === 'function') {
+                        initTags();
+                    }
+                } catch (initError) {
+                    console.error('Page initialization error:', initError);
+                }
 
-                hideProgress();
-                
                 if (!fromPopState) {
-                    history.pushState({ 
-                        page: page, 
-                        path: url, 
-                        nav_id: nav_id 
+                    history.pushState({
+                        page: page,
+                        path: url,
+                        nav_id: nav_id
                     }, "", url);
                 }
             })
             .catch(error => {
+                console.error('Page load error:', error);
+
+                $('.root-print').html(
+                    '<div class="alert alert-danger m-4">' +
+                    '<strong>Page load failed.</strong><br>' +
+                    '<small>' + String(error.message) + '</small>' +
+                    '</div>'
+                );
+            })
+            .finally(() => {
                 hideProgress();
-                console.error('Error:', error);
             });
 
             document.querySelectorAll('#sidebarMenu .nav-link').forEach(link => {
