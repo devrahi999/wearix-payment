@@ -32,12 +32,29 @@
         }
 
         try {
-            $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
-            $pdo = new PDO($dsn, $username, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_AUTOCOMMIT => false
-            ]);
+    // Build MySQL DSN
+    $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+
+    // Aiven CA certificate path
+    $caPath = __DIR__ . '/../../certs/ca.pem';
+
+    // Ensure CA certificate exists
+    if (!file_exists($caPath)) {
+        throw new Exception(
+            "Database CA certificate not found at: " . $caPath
+        );
+    }
+
+    // Create secure TLS/SSL PDO connection
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_AUTOCOMMIT => false,
+        PDO::MYSQL_ATTR_SSL_CA => $caPath,
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true
+    ]);
+
+    // Read SQL file
 
             // Read SQL file
             $sqlContent = file_get_contents(__DIR__ . '/db.sql');
