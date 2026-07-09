@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libicu-dev \
     libonig-dev \
+    libmagickwand-dev \
     unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
@@ -17,6 +18,8 @@ RUN apt-get update && apt-get install -y \
         zip \
         intl \
         bcmath \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && a2enmod rewrite headers expires \
     && rm -rf /var/lib/apt/lists/*
 
